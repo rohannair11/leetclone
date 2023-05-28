@@ -1,6 +1,9 @@
 import { authModalState } from '@/atoms/AuthmodalAtom'
-import React from 'react'
+import React, {useState} from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/firebase';
+
 
 type LoginProps = {}
 
@@ -8,6 +11,16 @@ const Login:React.FC<LoginProps> = () => {
   const authState = useSetRecoilState(authModalState)
   const handleClick = (type: "login" | "register" | "forgotPassword") => {
     authState((prev) => ({...prev, type }))
+  }
+  const [
+  signInWithEmailAndPassword,
+  user,
+  loading,
+  error,
+  ] = useSignInWithEmailAndPassword(auth);
+  const [inputs, setInputs] = useState({email: "", password: ""})
+  const handleChange = () => {
+    
   }
   return (
     <div>
@@ -19,13 +32,13 @@ const Login:React.FC<LoginProps> = () => {
           <label htmlFor="email" className='text-sm font-medium block mb-2 text-gray-300'>
             your email
           </label>
-          <input type="email" name='email' id='email' className='border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white ' placeholder='name@company.com' />
+          <input onChange={handleChange} type="email" name='email' id='email' className='border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white ' placeholder='name@company.com' />
         </div>
         <div>
           <label htmlFor="password" className='text-sm font-medium block mb-2 text-gray-300'>
             your password
           </label>
-          <input type="password" name='password' id='password' className='border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white ' placeholder='enter password' />
+          <input onChange={handleChange} type="password" name='password' id='password' className='border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white ' placeholder='enter password' />
         </div>
         <button type='submit' className='w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-brand-orange'>
           Login

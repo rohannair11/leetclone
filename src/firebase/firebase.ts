@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "leetcode-clone-e583b",
   storageBucket: "leetcode-clone-e583b.appspot.com",
   messagingSenderId: "776738502300",
-  appId: "1:776738502300:web:5d2c0ec4168f6780951f59S"
+  appId: "1:776738502300:web:5d2c0ec4168f6780951f59"
 };
 
 const app = !getApps.length ? initializeApp(firebaseConfig) : getApp(); 

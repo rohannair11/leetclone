@@ -1,7 +1,7 @@
 import { authModalState } from '@/atoms/AuthmodalAtom'
 import { auth } from "@/firebase/firebase";
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
@@ -27,6 +27,7 @@ const Signup:React.FC<SignupProps> = () => {
   }
   const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if(!inputs.email || !inputs.displayName || !inputs.password) return alert("Please enter all fields")
     try {
       const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password)
       if(!newUser) return; 
@@ -34,9 +35,12 @@ const Signup:React.FC<SignupProps> = () => {
     } catch (error:any) {
       alert(error.message)
     }
-    
-    
   }
+
+  useEffect(() => {
+    if(error) alert(error.message)
+  }, [error])
+
   return (
     <div>
       <form className='space-y-6 px-6 pb-4' onSubmit={handleSubmit}>
@@ -68,7 +72,7 @@ const Signup:React.FC<SignupProps> = () => {
 
 
         <button type='submit' className='w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-brand-orange'>
-          Register
+          {loading ? "Registering.. " : "Register"}
         </button>
         
 
